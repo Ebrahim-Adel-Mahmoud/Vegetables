@@ -7,17 +7,25 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\OTP;
+use Illuminate\Support\Facades\Validator;
 
 class ForgetPassController extends Controller
 {
     public function forgetPassword(Request $request): JsonResponse
     {
-        $request->validate([
-            'phone_number' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ]);
+        }
         try {
-            $input = $request->only('phone_number');
-            $user = User::Where('phone_number', $input)->first();
+            $user = User::Where('phone_number', $request->phone_number)->first();
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
@@ -45,18 +53,25 @@ class ForgetPassController extends Controller
 
     public function resetPassword(Request $request): JsonResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:8|confirmed',
             'otp_id' => 'required|integer',
             'otp' => 'required|integer'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ]);
+        }
         try {
-            $fields = $request->only('password', 'otp_id', 'otp');
-            $otp = OTP::find($fields['otp_id']);
-            if ($otp->otp == $fields['otp']) {
+            $otp = OTP::find($request->otp_id);
+            if ($otp->otp == $request->otp) {
                 $otp->delete();
                 User::where('id', $otp->user_id)->update([
-                    'password' => bcrypt($fields['password'])
+                    'password' => bcrypt($request->password)
                 ]);
                 return response()->json([
                     'status' => true,

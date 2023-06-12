@@ -4,23 +4,21 @@ namespace App\Http\Controllers\Api\All\Slider;
 
 use App\Http\Controllers\Controller;
 use App\Models\CatSlider;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CatSliderController extends Controller
 {
     public function index(): JsonResponse
     {
         try {
-            $slider = CatSlider::all();
-            for ($i = 0; $i < count($slider); $i++) {
-                $slider[$i]->images = explode("|", $slider[$i]->images);
-            }
+            $slider = CatSlider::get('images');
             return response()->json([
                 'status' => true,
                 'message' => 'Slider successfully',
                 'data' => $slider
-
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -37,26 +35,29 @@ class CatSliderController extends Controller
             'images' => 'required',
         ]);
 
+        $validator = Validator::make($request->all(), [
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Slider failed',
+                'data' => $validator->errors(),
+            ]);
+        }
+
         try {
-            $images = array();
-            if ($files = $request->file('images')) {
-                foreach ($files as $file) {
-                    $image_name = md5(rand(100, 200));
-                    $ext = strtolower($file->getClientOriginalExtension());
-                    $image_full_name = $image_name . '.' . $ext;
-                    $upload_path = 'images/slider/';
-                    $image_url = $upload_path . $image_full_name;
-                    $file -> move($upload_path, $image_full_name);
-                    $images[] = asset($image_url);
-                }
-            }
-            CatSlider::insert([
-                'images' => implode("|",$images),
+            $images = $request->file('images');
+            $imagesName = Carbon::now()->timestamp . '_' . uniqid() . '.' . $images->getClientOriginalExtension();
+            $images->move(public_path('images/slider'), $imagesName);
+            $slider = CatSlider::create([
+                'images' => asset('images/slider/' . $imagesName),
             ]);
             return response()->json([
                 'state' => true,
                 'message' => 'Slider successfully',
-                'data' => $images
+                'data' => $slider
             ]);
         } catch (\Exception $e) {
             return response()->json([

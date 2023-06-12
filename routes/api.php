@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\All\User\Auth\RegisterController;
 use App\Http\Controllers\Api\All\User\Auth\RemoveAccountController;
 use App\Http\Controllers\Api\All\User\Profile\ShowController;
 use App\Http\Controllers\Api\All\User\Profile\UpdateController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,11 +46,15 @@ Route::post('/reset-password', [ForgetPassController::class, 'resetPassword']);
 
 //cities
 Route::get('/cites', [RegisterController::class, 'allCity']);
+Route::post('/cites/create', [RegisterController::class, 'addCity']);
+
 
 //slider
 Route::get('/slider', [SliderController::class, 'index']);
 Route::get('/catSlider', [CatSliderController::class, 'index']);
+Route::get('/iSlider', [SliderController::class, 'index']);
 
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
 Route::post('/catSlider/create', [CatSliderController::class, 'store']);
+Route::post('/iSlider/create', [SliderController::class, 'store']);
