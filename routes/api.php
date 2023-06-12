@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\All\Slider\CatSliderController;
 use App\Http\Controllers\Api\All\Slider\SliderController;
 use App\Http\Controllers\Api\All\User\Auth\ForgetPassController;
 use App\Http\Controllers\Api\All\User\Auth\LoginController;
@@ -47,7 +48,8 @@ Route::get('/cites', [RegisterController::class, 'allCity']);
 
 //slider
 Route::get('/slider', [SliderController::class, 'index']);
+Route::get('/catSlider', [CatSliderController::class, 'index']);
 
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
-
+Route::post('/catSlider/create', [CatSliderController::class, 'store']);
