@@ -44,6 +44,8 @@ Route::post('/verify', [OtpController::class, 'verifyOTP']);
 Route::post('/resend', [OtpController::class, 'resendOTP']);
 Route::post('/forget-password', [ForgetPassController::class, 'forgetPassword']);
 Route::post('/reset-password', [ForgetPassController::class, 'resetPassword']);
+
+//cities
 Route::get('/cites', [RegisterController::class, 'allCity']);
 
 //slider
