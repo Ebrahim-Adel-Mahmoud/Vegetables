@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\All\Slider\SliderController;
 use App\Http\Controllers\Api\All\User\Auth\ForgetPassController;
 use App\Http\Controllers\Api\All\User\Auth\LoginController;
 use App\Http\Controllers\Api\All\User\Auth\LogoutController;
@@ -44,5 +45,9 @@ Route::post('/forget-password', [ForgetPassController::class, 'forgetPassword'])
 Route::post('/reset-password', [ForgetPassController::class, 'resetPassword']);
 Route::get('/cites', [RegisterController::class, 'allCity']);
 
+//slider
+Route::get('/slider', [SliderController::class, 'index']);
 
+//remove this later
+Route::post('/slider/create', [SliderController::class, 'store']);
 

@@ -18,6 +18,8 @@ class OTP extends Model
 
     protected $hidden = [
         'otp',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [
