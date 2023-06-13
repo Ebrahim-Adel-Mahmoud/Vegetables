@@ -30,7 +30,7 @@ class RegisterController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Register Error.',
                 'data' => $validator->errors(),
             ]);
@@ -55,7 +55,7 @@ class RegisterController extends Controller
                 $avatar->move(public_path('images/users/'), $avatarName);
                 $user->avatar = asset('images/users/' . $avatarName);
             } else {
-                $user->avatar = asset('images/users/user.png');
+                $user->avatar = asset('images/state/user.png');
             }
             $user->save();
 
@@ -84,19 +84,19 @@ class RegisterController extends Controller
                     'otp_id' => $otp->id
                 ];
                 return response([
-                    'success' => true,
+                    'status' => true,
                     'message' => 'User created successfully',
                     'data' => $response
                 ], 201);
             } else {
                 return response([
-                    'success' => false,
+                    'status' => false,
                     'message' => 'Something went wrong'
                 ], 500);
             }
         } catch (\Exception $e) {
             return response([
-                'success' => false,
+                'status' => false,
                 'message' => 'Something went wrong',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);
@@ -107,7 +107,7 @@ class RegisterController extends Controller
     {
         $city = City::all();
         return response([
-            'success' => true,
+            'status' => true,
             'message' => 'User created successfully',
             'data' => $city
         ], 201);
@@ -121,7 +121,7 @@ class RegisterController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'City Error.',
                 'data' => $validator->errors(),
             ]);
@@ -140,19 +140,19 @@ class RegisterController extends Controller
                     ],
                 ];
                 return response([
-                    'success' => true,
+                    'status' => true,
                     'message' => 'User created successfully',
                     'data' => $response
                 ], 201);
             } else {
                 return response([
-                    'success' => false,
+                    'status' => false,
                     'message' => 'Something went wrong'
                 ], 500);
             }
         } catch (\Exception $e) {
             return response([
-                'success' => false,
+                'status' => false,
                 'message' => 'Something went wrong',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);

@@ -14,13 +14,13 @@ class IsliderController extends Controller
         try {
             $silders = Islider::all(['id', 'name', 'description', 'image']);
             return response()->json([
-                'state' => true,
+                'status' => true,
                 'message' => 'Slider successfully',
                 'data' => $silders,
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Slider failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Error, try again',
             ]);
@@ -37,7 +37,7 @@ class IsliderController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Slider failed',
                 'data' => $validator->errors(),
             ]);
@@ -55,13 +55,13 @@ class IsliderController extends Controller
             $product->save();
 
             return response()->json([
-                'state' => true,
+                'status' => true,
                 'message' => 'Slider successfully',
                 'data' => $product,
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Slider failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Error, try again',
             ]);

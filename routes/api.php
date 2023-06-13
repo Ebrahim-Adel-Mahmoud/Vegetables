@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\All\Category\CategoryController;
+use App\Http\Controllers\Api\All\SCategory\SubCategoryController;
 use App\Http\Controllers\Api\All\Slider\CatSliderController;
 use App\Http\Controllers\Api\All\Slider\SliderController;
 use App\Http\Controllers\Api\All\User\Auth\ForgetPassController;
@@ -54,7 +56,19 @@ Route::get('/slider', [SliderController::class, 'index']);
 Route::get('/catSlider', [CatSliderController::class, 'index']);
 Route::get('/iSlider', [SliderController::class, 'index']);
 
+
+//categories
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+
+//sub categories
+Route::get('/sub-categories/{id}', [SubCategoryController::class, 'index']);
+Route::get('/sub-categories/{id}/{subId}', [SubCategoryController::class, 'show']);
+
+
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
 Route::post('/catSlider/create', [CatSliderController::class, 'store']);
 Route::post('/iSlider/create', [SliderController::class, 'store']);
+Route::post('/categories/create', [CategoryController::class, 'store']);
+Route::post('/sub-categories/create', [SubCategoryController::class, 'store']);

@@ -19,7 +19,7 @@ class ForgetPassController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Validation error',
                 'data' => $validator->errors(),
             ]);
@@ -61,7 +61,7 @@ class ForgetPassController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Validation error',
                 'data' => $validator->errors(),
             ]);

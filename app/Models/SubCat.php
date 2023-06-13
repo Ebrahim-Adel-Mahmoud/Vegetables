@@ -26,13 +26,13 @@ class SubCat extends Model
         'deleted_at',
     ];
 
-//    public function cat()
-//    {
-//        return $this->belongsTo(Cat::class);
-//    }
+    public function cat()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
-//    public function products()
-//    {
-//        return $this->hasMany(Product::class);
-//    }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

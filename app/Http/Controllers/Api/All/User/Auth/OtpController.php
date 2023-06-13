@@ -24,7 +24,7 @@ class OtpController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Validation Error',
                 'data' => $validator->errors(),
             ]);
@@ -39,18 +39,18 @@ class OtpController extends Controller
                     'status' => 'active'
                 ]);
                 return response([
-                    'success' => true,
+                    'status' => true,
                     'message' => 'OTP verified successfully'
                 ], 200);
             } else {
                 return response([
-                    'success' => false,
+                    'status' => false,
                     'message' => 'OTP is not valid'
                 ], 400);
             }
         } catch (\Exception $e) {
             return response([
-                'success' => false,
+                'status' => false,
                 'message' => 'Something went wrong',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);
@@ -65,7 +65,7 @@ class OtpController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Validation Error',
                 'data' => $validator->errors(),
             ]);
@@ -78,12 +78,12 @@ class OtpController extends Controller
             $otp->save();
 
             return response([
-                'success' => true,
+                'status' => true,
                 'message' => 'OTP sent successfully'
             ], 200);
         } catch (\Exception $e) {
             return response([
-                'success' => false,
+                'status' => false,
                 'message' => 'Something went wrong',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);

@@ -22,7 +22,7 @@ class CatSliderController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Slider Get Data Failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);
@@ -61,7 +61,7 @@ class CatSliderController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Slider Get Data Failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);

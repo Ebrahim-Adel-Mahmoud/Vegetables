@@ -24,7 +24,7 @@ class SliderController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Slider Get Data Failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);
@@ -41,7 +41,7 @@ class SliderController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Slider failed',
                 'data' => $validator->errors(),
             ]);
@@ -55,13 +55,13 @@ class SliderController extends Controller
                 'images' => asset('images/slider/' . $imagesName),
             ]);
             return response()->json([
-                'state' => true,
+                'status' => true,
                 'message' => 'Slider successfully',
                 'data' => $slider
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Slider Get Data Failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);

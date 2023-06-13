@@ -24,7 +24,7 @@ class LoginController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'state' => false,
+                'status' => false,
                 'message' => 'Slider failed',
                 'data' => $validator->errors(),
             ]);

@@ -25,7 +25,7 @@ class RemoveAccountController extends Controller
             ]);
         } catch (\Exception $e) {
             return response([
-                'success' => false,
+                'status' => false,
                 'message' => 'Something went wrong',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ], 500);
