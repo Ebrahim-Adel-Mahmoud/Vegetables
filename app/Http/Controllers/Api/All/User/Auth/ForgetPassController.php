@@ -14,7 +14,7 @@ class ForgetPassController extends Controller
     public function forgetPassword(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'phone' => 'require',
         ]);
 
         if ($validator->fails()) {

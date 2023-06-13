@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\All\SCategory;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\SubCat;
@@ -35,13 +36,13 @@ class SubCategoryController extends Controller
     {
         try {
             $sCat = SubCat::find($id);
-            for ($i = 0; $i < count($sCat); $i++) {
-                $sCat[$i]->images = explode("|", $sCat[$i]->images);
-            }
+            $sCat->images = explode("|", $sCat->images);
+            $product = Product::where('subcategory_id', 'like', '%' . $id . '%')->get();
             return response()->json([
                 'status' => true,
                 'message' => 'Sub Category Details',
                 'data' => $sCat,
+                'product' => $product,
             ]);
         } catch (\Exception $e) {
             return response()->json([

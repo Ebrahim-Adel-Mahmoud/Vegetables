@@ -9,16 +9,24 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UpdateController extends Controller
 {
     public function update(Request $request): JsonResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Validator error',
+                'data' => $validator->errors(),
+            ]);
+        }
         $user = auth()->user();
         $user->update($request->all());
 
@@ -37,10 +45,18 @@ class UpdateController extends Controller
 
     public function updatePassword(Request $request): Response|JsonResponse|Application|ResponseFactory
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'old_password' => 'required|string|max:255',
             'password' => 'required|string|max:255|confirmed',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Validator error',
+                'data' => $validator->errors(),
+            ]);
+        }
 
         try {
             $user = auth()->user();
@@ -59,7 +75,7 @@ class UpdateController extends Controller
                 'message' => 'Password updated successfully',
                 'data' => $user
             ]);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return response([
                 'success' => false,
                 'message' => 'Something went wrong',

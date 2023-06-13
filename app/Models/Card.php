@@ -6,17 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Product extends Model
+class Card extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'price',
-        'stock',
-        'image',
-        'description',
-        'subcategory_id',
+        'user_id',
+        'box_id',
+        'quantity',
+        'total',
+        'type'
     ];
 
     protected $hidden = [
@@ -24,8 +23,8 @@ class Product extends Model
         'updated_at',
     ];
 
-    public function subcategory(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(SubCat::class);
+        return $this->belongsTo(User::class);
     }
 }

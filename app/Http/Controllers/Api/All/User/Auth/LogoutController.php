@@ -15,9 +15,6 @@ class LogoutController extends Controller
         try {
             $user = $request->user();
             $user->tokens()->delete();
-            $user->update([
-                'status' => 'inactive'
-            ]);
             return response([
                 'success' => true,
                 'message' => 'Logged out successfully'

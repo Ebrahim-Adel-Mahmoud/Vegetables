@@ -31,10 +31,6 @@ class CatSliderController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $request->validate([
-            'images' => 'required',
-        ]);
-
         $validator = Validator::make($request->all(), [
             'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);

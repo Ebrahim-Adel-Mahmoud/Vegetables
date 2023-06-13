@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\OTP;
 use App\Models\City;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -19,11 +20,10 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:3|max:255',
-            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:users',
+            'phone_number' => 'required|unique:users',
             'address' => 'required|string',
             'longitude' => 'required|string',
             'latitude' => 'required|string',
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|string|confirmed',
             'city_id' => 'required'
         ]);
@@ -41,23 +41,21 @@ class RegisterController extends Controller
         try {
             $user = User::create([
                 'name' => $request->name,
-                'phone_number' => $request->phone,
+                'phone_number' => $request->phone_number,
                 'address' => $request->address,
                 'longitude' => $request->longitude,
                 'latitude' => $request->latitude,
                 'city_id' => $request->city_id,
                 'password' => bcrypt($request->password),
             ]);
-
             if ($request->hasFile('avatar')) {
-                $avatar = $request->file('avatar');
-                $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
-                $avatar->move(public_path('images/users/'), $avatarName);
-                $user->avatar = asset('images/users/' . $avatarName);
+                $images = $request->file('avatar');
+                $imagesName = Carbon::now()->timestamp . '_' . uniqid() . '.' . $images->getClientOriginalExtension();
+                $images->move(public_path('images/users'), $imagesName);
+                $user->avatar = asset('images/users/' . $imagesName);
             } else {
                 $user->avatar = asset('images/state/user.png');
             }
-            $user->save();
 
             $token = $user->createToken('myToken')->plainTextToken;
 

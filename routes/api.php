@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\All\Card\CardController;
 use App\Http\Controllers\Api\All\Category\CategoryController;
+use App\Http\Controllers\Api\All\Order\CustomOrderController;
+use App\Http\Controllers\Api\All\Product\ProductController;
 use App\Http\Controllers\Api\All\SCategory\SubCategoryController;
 use App\Http\Controllers\Api\All\Slider\CatSliderController;
 use App\Http\Controllers\Api\All\Slider\SliderController;
@@ -36,6 +39,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::put('/profile/password', [UpdateController::class, 'updatePassword']);
     Route::get('/removeUser', [RemoveAccountController::class, 'removeAccount']);
     Route::post('/logout', [LogoutController::class, 'logout']);
+    Route::get('/cards', [CardController::class, 'index']);
+    Route::post('/cards/create', [CardController::class, 'store']);
 });
 
 //public routes
@@ -62,9 +67,15 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
 //sub categories
-Route::get('/sub-categories/{id}', [SubCategoryController::class, 'index']);
-Route::get('/sub-categories/{id}/{subId}', [SubCategoryController::class, 'show']);
+Route::get('/sub-categories/cat/{id}', [SubCategoryController::class, 'index']);
+Route::get('/sub-categories/{id}', [SubCategoryController::class, 'show']);
 
+//products
+Route::get('/product/{id}', [ProductController::class, 'index']);
+Route::get('/product', [ProductController::class, 'getAll']);
+
+//custom order
+Route::post('/custom-order', [CustomOrderController::class, 'customOrder']);
 
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
@@ -72,3 +83,4 @@ Route::post('/catSlider/create', [CatSliderController::class, 'store']);
 Route::post('/iSlider/create', [SliderController::class, 'store']);
 Route::post('/categories/create', [CategoryController::class, 'store']);
 Route::post('/sub-categories/create', [SubCategoryController::class, 'store']);
+Route::post('/product/create',[ProductController::class,'store']);
