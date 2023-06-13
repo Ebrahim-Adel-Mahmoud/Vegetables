@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\All\User\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\OTP;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -51,8 +50,10 @@ class LoginController extends Controller
                 $response = [
                     'status' => true,
                     'message' => 'Login success',
-                    'data' => $user,
-                    'token' => $token,
+                    'data' => [
+                        $user,
+                        'token' => $token
+                    ],
                 ];
                 return response($response, 201);
             } else {
