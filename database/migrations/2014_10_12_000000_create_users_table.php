@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->bigInteger('city_id')->unsigned();
             $table->string('role')->default('USR')->comment('USR, ADM');
-            $table->string('status')->default('inactive');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->rememberToken();
