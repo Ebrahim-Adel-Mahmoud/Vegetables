@@ -10,7 +10,7 @@ class CatSlider extends Model
     use HasFactory;
 
     protected $fillable = [
-        'image',
+        'images',
         'status'
     ];
 

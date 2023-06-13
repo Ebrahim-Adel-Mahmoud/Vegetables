@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\Api\\All\\Slider\\CatSliderController' => $baseDir . '/app/Http/Controllers/Api/All/Slider/CatSliderController.php',
     'App\\Http\\Controllers\\Api\\All\\Slider\\SliderController' => $baseDir . '/app/Http/Controllers/Api/All/Slider/SliderController.php',
     'App\\Http\\Controllers\\Api\\All\\User\\Auth\\ForgetPassController' => $baseDir . '/app/Http/Controllers/Api/All/User/Auth/ForgetPassController.php',
     'App\\Http\\Controllers\\Api\\All\\User\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Api/All/User/Auth/LoginController.php',
@@ -32,7 +33,9 @@ return array(
     'App\\Models\\CatSlider' => $baseDir . '/app/Models/CatSlider.php',
     'App\\Models\\City' => $baseDir . '/app/Models/City.php',
     'App\\Models\\OTP' => $baseDir . '/app/Models/OTP.php',
+    'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',
+    'App\\Models\\SubCat' => $baseDir . '/app/Models/SubCat.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

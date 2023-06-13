@@ -523,6 +523,7 @@ class ComposerStaticInit50535d8d0f6ab976f5018d4747319216
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\Api\\All\\Slider\\CatSliderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/All/Slider/CatSliderController.php',
         'App\\Http\\Controllers\\Api\\All\\Slider\\SliderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/All/Slider/SliderController.php',
         'App\\Http\\Controllers\\Api\\All\\User\\Auth\\ForgetPassController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/All/User/Auth/ForgetPassController.php',
         'App\\Http\\Controllers\\Api\\All\\User\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/All/User/Auth/LoginController.php',
@@ -547,7 +548,9 @@ class ComposerStaticInit50535d8d0f6ab976f5018d4747319216
         'App\\Models\\CatSlider' => __DIR__ . '/../..' . '/app/Models/CatSlider.php',
         'App\\Models\\City' => __DIR__ . '/../..' . '/app/Models/City.php',
         'App\\Models\\OTP' => __DIR__ . '/../..' . '/app/Models/OTP.php',
+        'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',
+        'App\\Models\\SubCat' => __DIR__ . '/../..' . '/app/Models/SubCat.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
