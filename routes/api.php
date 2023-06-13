@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\All\Card\CardController;
 use App\Http\Controllers\Api\All\Category\CategoryController;
+use App\Http\Controllers\Api\All\Contact\ContactUsController;
+use App\Http\Controllers\Api\All\HomeScreen\HomeScreenController;
 use App\Http\Controllers\Api\All\Order\CustomOrderController;
 use App\Http\Controllers\Api\All\Product\ProductController;
 use App\Http\Controllers\Api\All\SCategory\SubCategoryController;
@@ -41,6 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout']);
     Route::get('/cards', [CardController::class, 'index']);
     Route::post('/cards/create', [CardController::class, 'store']);
+    Route::post('/contact/create',[ContactUsController::class,'store']);
+    Route::get('/contact',[ContactUsController::class,'index']);
 });
 
 //public routes
@@ -77,6 +81,9 @@ Route::get('/product', [ProductController::class, 'getAll']);
 //custom order
 Route::post('/custom-order', [CustomOrderController::class, 'customOrder']);
 
+//home page
+Route::get('/home/screen',[HomeScreenController::class,'homeScreen']);
+
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
 Route::post('/catSlider/create', [CatSliderController::class, 'store']);
@@ -84,3 +91,4 @@ Route::post('/iSlider/create', [SliderController::class, 'store']);
 Route::post('/categories/create', [CategoryController::class, 'store']);
 Route::post('/sub-categories/create', [SubCategoryController::class, 'store']);
 Route::post('/product/create',[ProductController::class,'store']);
+
