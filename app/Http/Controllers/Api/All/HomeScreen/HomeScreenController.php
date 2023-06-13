@@ -28,7 +28,7 @@ class HomeScreenController extends Controller
                 'SliderProducts' => $sliderProducts->toArray(),
                 'Categories' => $categories->toArray(),
                 'Contact' => $contacts->toArray(),
-                'Administrator' => $phoneNumbers->toArray(),
+                'Administrator' => $phoneNumbers
             ];
 
             return response()->json([
