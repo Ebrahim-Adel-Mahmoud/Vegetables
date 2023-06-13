@@ -7,23 +7,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\OTP;
-use Illuminate\Support\Facades\Validator;
 
 class ForgetPassController extends Controller
 {
     public function forgetPassword(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'phone' => 'require',
+       $request->validate([
+            'phone' => 'required|numeric'
         ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation error',
-                'data' => $validator->errors(),
-            ]);
-        }
         try {
             $user = User::Where('phone_number', $request->phone)->first();
             if (!$user) {
@@ -53,19 +44,11 @@ class ForgetPassController extends Controller
 
     public function resetPassword(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'password' => 'required|string|min:8|confirmed',
             'otp_id' => 'required|integer',
             'otp' => 'required|integer'
         ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation error',
-                'data' => $validator->errors(),
-            ]);
-        }
         try {
             $otp = OTP::find($request->otp_id);
             if ($otp->otp == $request->otp) {
