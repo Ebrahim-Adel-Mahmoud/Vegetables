@@ -25,7 +25,7 @@ class ForgetPassController extends Controller
             ]);
         }
         try {
-            $user = User::Where('phone_number', $request->phone_number)->first();
+            $user = User::Where('phone_number', $request->phone)->first();
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
