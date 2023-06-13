@@ -56,6 +56,7 @@ class RegisterController extends Controller
             } else {
                 $user->avatar = asset('images/state/user.png');
             }
+            $user->save();
 
             $token = $user->createToken('myToken')->plainTextToken;
 
