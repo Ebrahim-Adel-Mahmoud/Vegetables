@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\All\User\Auth\RegisterController;
 use App\Http\Controllers\Api\All\User\Auth\RemoveAccountController;
 use App\Http\Controllers\Api\All\User\Profile\ShowController;
 use App\Http\Controllers\Api\All\User\Profile\UpdateController;
+use App\Http\Controllers\Api\All\WorkTime\WorkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,7 +80,12 @@ Route::get('/product/{id}', [ProductController::class, 'index']);
 Route::get('/product', [ProductController::class, 'getAll']);
 
 //custom order
-Route::post('/custom-order', [CustomOrderController::class, 'customOrder']);
+Route::post('/custom-order', [CustomOrderController::class, 'index']);
+
+//work
+Route::get('/work', [WorkController::class, 'index']);
+Route::post('/work/create', [WorkController::class, 'store']);
+
 
 //home page
 Route::get('/home/screen',[HomeScreenController::class,'homeScreen']);
