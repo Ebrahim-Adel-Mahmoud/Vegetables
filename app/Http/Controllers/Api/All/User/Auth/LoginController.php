@@ -48,14 +48,24 @@ class LoginController extends Controller
 
             if ($token) {
                 $response = [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'phone_number'=> $user->phone_number,
+                        'address'=> $user->address,
+                        'longitude'=> $user->longitude,
+                        'latitude'=> $user->latitude,
+                        'city_id'=> $user->city_id,
+                        'avatar'=> $user->avatar,
+                        'city_name' => $user->city->name,
+                        'status' => $user->status,
+                        'role' => $user->role,
+                        'token' => $token,
+                ];
+                return response([
                     'status' => true,
                     'message' => 'Login success',
-                    'data' => [
-                        $user,
-                        'token' => $token
-                    ],
-                ];
-                return response($response, 201);
+                    'data' => $response,
+                ], 201);
             } else {
                 return response([
                     'status' => false,

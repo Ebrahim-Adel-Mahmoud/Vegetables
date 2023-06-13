@@ -79,6 +79,7 @@ class RegisterController extends Controller
                         'avatar'=> $user->avatar,
                         'city_name' => $cite->name,
                         'status' => $user->status,
+                        'role' => $user->role,
                     ],
                     'token' => $token,
                     'otp_id' => $otp->id
