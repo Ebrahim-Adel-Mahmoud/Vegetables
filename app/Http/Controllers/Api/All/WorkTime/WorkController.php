@@ -14,9 +14,9 @@ class WorkController extends Controller
     {
         try {
             $work = Work::all();
-            foreach ($work as $key => $value) {
-                $work[$key]['day'] = Carbon::parse($value['day'])->format('l');
-                $work[$key]['date'] = Carbon::parse($value['day'])->format('d');
+            foreach ($work as $value) {
+                $value->day = Carbon::parse('next ' . $value->day)->format('Y-m-d');
+                $value->day_name = Carbon::parse($value->day)->format('l');
             }
             return response()->json([
                 'status' => true,
@@ -34,6 +34,11 @@ class WorkController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $request->validate([
+            'day' => 'required|string',
+            'start' => 'nullable|date_format:H:i:s',
+            'end' => 'nullable|date_format:H:i:s'
+        ]);
         try {
             $work = new Work();
             $work->day = $request->day;
