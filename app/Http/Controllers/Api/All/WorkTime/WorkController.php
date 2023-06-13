@@ -13,11 +13,11 @@ class WorkController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $work = Work::all();
+            $work = Work::get('day');
             foreach ($work as $value) {
-                $value->day = Carbon::parse('next ' . $value->day)->format('Y-m-d');
-                $value->day_name = Carbon::parse($value->day)->format('l');
+                $value->date = Carbon::parse($value->day)->format('d');
             }
+
             return response()->json([
                 'status' => true,
                 'message' => 'Data Work',
