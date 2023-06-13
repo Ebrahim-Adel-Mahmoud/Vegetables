@@ -7,21 +7,32 @@ use App\Models\OTP;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class OtpController extends Controller
 {
-    public function verifyOTP(Request $request): Response|Application|ResponseFactory
+    public function verifyOTP(Request $request): Response|JsonResponse|Application|ResponseFactory
     {
-        $fields = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'otp_id' => 'required|integer',
             'otp' => 'required|integer'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ]);
+        }
+
         try {
-            $otp = OTP::find($fields['otp_id']);
-            if ($otp->otp == $fields['otp']) {
+            $otp = OTP::find($request->otp_id);
+            if ($otp->otp == $request->otp) {
                 $otp->delete();
                 User::where('id', $otp->user_id)->update([
                     'email_verified_at' => now(),
@@ -46,14 +57,22 @@ class OtpController extends Controller
         }
     }
 
-    public function resendOTP(Request $request): Response|Application|ResponseFactory
+    public function resendOTP(Request $request): Response|Application|ResponseFactory|JsonResponse
     {
-        $fields = $request->validate([
+        $validator = Validator::make($request->all(), [
             'otp_id' => 'required|integer'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ]);
+        }
+
         try {
-            $otp = OTP::find($fields['otp_id']);
+            $otp = OTP::find($request->otp_id);
             $otp->otp = rand(1000, 9999);
             $otp->expired_at = now()->addMinutes(5);
             $otp->save();

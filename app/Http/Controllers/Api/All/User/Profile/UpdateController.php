@@ -17,8 +17,6 @@ class UpdateController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-
         ]);
 
         $user = auth()->user();

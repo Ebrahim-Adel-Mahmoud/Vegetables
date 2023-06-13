@@ -8,16 +8,18 @@ use App\Models\OTP;
 use App\Models\City;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request): Response|Application|ResponseFactory
+    public function register(Request $request): Response|JsonResponse|Application|ResponseFactory
     {
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'phone' => 'required|string|unique:users,phone_number',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:3|max:255',
+            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:users',
             'address' => 'required|string',
             'longitude' => 'required|string',
             'latitude' => 'required|string',
@@ -26,17 +28,25 @@ class RegisterController extends Controller
             'city_id' => 'required'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'Register Error.',
+                'data' => $validator->errors(),
+            ]);
+        }
+
         $cite = City::find( $request->city_id);
 
         try {
             $user = User::create([
-                'name' => $fields['name'],
-                'phone_number' => $fields['phone'],
-                'password' => bcrypt($fields['password']),
-                'address' => $fields['address'],
-                'longitude' => $fields['longitude'],
-                'latitude' => $fields['latitude'],
-                'city_id' => $fields['city_id'],
+                'name' => $request->name,
+                'phone_number' => $request->phone,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'city_id' => $request->city_id,
+                'password' => bcrypt($request->password),
             ]);
 
             if ($request->hasFile('avatar')) {
@@ -101,5 +111,51 @@ class RegisterController extends Controller
             'message' => 'User created successfully',
             'data' => $city
         ], 201);
+    }
+    public function addCity(Request $request): Response|JsonResponse|Application|ResponseFactory
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'state' => false,
+                'message' => 'City Error.',
+                'data' => $validator->errors(),
+            ]);
+        }
+
+        try {
+            $city = City::create([
+                'name' => $request->name,
+            ]);
+
+            if ($city) {
+                $response = [
+                    'city' => [
+                        'id' => $city->id,
+                        'name' => $city->name,
+                    ],
+                ];
+                return response([
+                    'success' => true,
+                    'message' => 'User created successfully',
+                    'data' => $response
+                ], 201);
+            } else {
+                return response([
+                    'success' => false,
+                    'message' => 'Something went wrong'
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            return response([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
+            ], 500);
+        }
     }
 }
