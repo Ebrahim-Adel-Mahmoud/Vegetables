@@ -76,7 +76,8 @@ class RegisterController extends Controller
                         'latitude'=> $user->latitude,
                         'city_id'=> $user->city_id,
                         'avatar'=> $user->avatar,
-                        'city_name' => $cite->name
+                        'city_name' => $cite->name,
+                        'status' => $user->status,
                     ],
                     'token' => $token,
                     'otp_id' => $otp->id
