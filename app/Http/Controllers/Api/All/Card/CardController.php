@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\All\Card;
 
 use App\Http\Controllers\Controller;
+use App\Models\Corder;
+use App\Models\Product;
 use App\Models\SubCat;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,22 +12,26 @@ use App\Models\Card;
 
 class CardController extends Controller
 {
+    public $selected_product = [];
+
     public function index(): JsonResponse
     {
         try {
             $cards = Card::where('user_id', auth()->user()->id)->get();
+            $order = Corder::where('user_id', auth()->user()->id)->get();
+            foreach ($order as $item) {
+                $this->selected_product = explode(',', $item->product_id);
+                $item->product = Product::whereIn('id', $this->selected_product)->get();
+                $cards->push($item);
+            }
             foreach ($cards as $card) {
-                if ($card->type == 'box') {
-                    $box = SubCat::where('id', $card->box_id)->first();
-                    $card->box = $box;
-                } else {
-                    $card->box = null ;
-                }
+                $box = SubCat::where('id', $card->box_id)->first();
+                $card->box = $box;
             }
             return response()->json([
                 'status' => true,
                 'message' => 'Cards Get successfully',
-                'data' => $cards,
+                'data' => $cards
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -38,36 +44,32 @@ class CardController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $request->validate([
+            'box_id' => 'required',
+            'quantity' => 'required',
+        ]);
         try {
-            if ($request->type == 'box') {
-                $sCat = SubCat::where('id', $request->box_id)->first();
-                $total = $sCat->price * $request->quantity;
-                $card = Card::create([
-                    'user_id' => auth()->user()->id,
-                    'box_id' => $request->box_id,
-                    'quantity' => $request->quantity,
-                    'total' => $total,
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Card Created successfully',
-                    'data' => [
-                        'card' => $card,
-                        'box' => $sCat,
-                    ]
-                ]);
-            } else {
-                $card = Card::create([
-                    'user_id' => auth()->user()->id,
-                    'total' => $request->total,
-                    'type' => 'custom',
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Card Created successfully',
-                    'data' => $card
-                ]);
-            }
+            $sCat = SubCat::where('id', $request->box_id)->first();
+            if (!$sCat) return response()->json([
+                'status' => false,
+                'message' => 'Box Not Found',
+                'data' => null
+            ]);
+            $total = $sCat->price * $request->quantity;
+            $card = Card::create([
+                'user_id' => auth()->user()->id,
+                'box_id' => $request->box_id,
+                'quantity' => $request->quantity,
+                'total' => $total,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Card Created successfully',
+                'data' => [
+                    'card' => $card,
+                    'box' => $sCat,
+                ]
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -81,33 +83,26 @@ class CardController extends Controller
     {
         try {
             $card = Card::where('id', $id)->first();
-            if ($request->type == 'box') {
-                $sCat = SubCat::where('id', $request->box_id)->first();
-                $total = $sCat->price * $request->quantity;
-                $card->update([
-                    'box_id' => $request->box_id,
-                    'quantity' => $request->quantity,
-                    'total' => $total,
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Card Updated successfully',
-                    'data' => [
-                        'card' => $card,
-                        'box' => $sCat,
-                    ]
-                ]);
-            } else {
-                $card->update([
-                    'total' => $request->total,
-                    'type' => 'custom',
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Card Updated successfully',
-                    'data' => $card
-                ]);
-            }
+            if (!$card) return response()->json([
+                'status' => false,
+                'message' => 'Card Not Found',
+                'data' => null
+            ]);
+            $sCat = SubCat::where('id', $request->box_id)->first();
+            $total = $sCat->price * $request->quantity;
+            $card->update([
+                'box_id' => $request->box_id,
+                'quantity' => $request->quantity,
+                'total' => $total,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Card Updated successfully',
+                'data' => [
+                    'card' => $card,
+                    'box' => $sCat,
+                ]
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

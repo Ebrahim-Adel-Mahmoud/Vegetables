@@ -559,6 +559,7 @@ class ComposerStaticInit50535d8d0f6ab976f5018d4747319216
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
         'App\\Models\\City' => __DIR__ . '/../..' . '/app/Models/City.php',
         'App\\Models\\ContactUs' => __DIR__ . '/../..' . '/app/Models/ContactUs.php',
+        'App\\Models\\Corder' => __DIR__ . '/../..' . '/app/Models/Corder.php',
         'App\\Models\\Islider' => __DIR__ . '/../..' . '/app/Models/Islider.php',
         'App\\Models\\OTP' => __DIR__ . '/../..' . '/app/Models/OTP.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',

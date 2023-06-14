@@ -36,9 +36,8 @@ class RegisterController extends Controller
             ]);
         }
 
-        $cite = City::find( $request->city_id);
-
         try {
+            $cite = City::find($request->city_id);
             $user = User::create([
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,

@@ -44,8 +44,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout']);
     Route::get('/cards', [CardController::class, 'index']);
     Route::post('/cards/create', [CardController::class, 'store']);
+    Route::put('/cards/update/{id}', [CardController::class, 'update']);
+    Route::delete('/cards/remove/{id}', [CardController::class, 'destroy']);
     Route::post('/contact/create',[ContactUsController::class,'store']);
     Route::get('/contact',[ContactUsController::class,'index']);
+    Route::get('/custom-order', [CustomOrderController::class, 'index']);
+    Route::post('/custom-order/create', [CustomOrderController::class, 'store']);
+    Route::get('/custom-order/{id}', [CustomOrderController::class, 'show']);
+    Route::put('/custom-order/update{id}', [CustomOrderController::class, 'update']);
 });
 
 //public routes
@@ -78,9 +84,6 @@ Route::get('/sub-categories/{id}', [SubCategoryController::class, 'show']);
 //products
 Route::get('/product/{id}', [ProductController::class, 'index']);
 Route::get('/product', [ProductController::class, 'getAll']);
-
-//custom order
-Route::post('/custom-order', [CustomOrderController::class, 'index']);
 
 //work
 Route::get('/work', [WorkController::class, 'index']);

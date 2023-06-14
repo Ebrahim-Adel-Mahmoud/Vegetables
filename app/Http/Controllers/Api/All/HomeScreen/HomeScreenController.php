@@ -8,11 +8,13 @@ use App\Models\CatSlider;
 use App\Models\Slider;
 use App\Models\ContactUs;
 use App\Models\User;
+use App\Models\SubCat;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class HomeScreenController extends Controller
 {
-    public function homeScreen(): JsonResponse
+    public function homeScreen()
     {
         try {
             $sliderCategories = CatSlider::all('id', 'images');
@@ -21,14 +23,15 @@ class HomeScreenController extends Controller
             $contacts = ContactUs::join('users', 'contact_us.user_id', '=', 'users.id')
                 ->select('contact_us.id', 'contact_us.message', 'users.phone_number')
                 ->get();
-            $phoneNumbers = User::where('role', 'ADM')->select('phone_number')->get()->first();
+            $phoneNumbers = User::where('role', 'ADM')->select('phone_number')->get();
+
 
             $finalResult = [
                 'SliderCategories' => $sliderCategories->toArray(),
                 'SliderProducts' => $sliderProducts->toArray(),
                 'Categories' => $categories->toArray(),
                 'Contact' => $contacts->toArray(),
-                'Administrator' => $phoneNumbers
+                'Administrator' => $phoneNumbers->toArray(),
             ];
 
             return response()->json([
@@ -41,6 +44,25 @@ class HomeScreenController extends Controller
                 'status' => false,
                 'message' => 'Something went wrong',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
+            ], $e->getCode());
+        }
+    }
+
+    public function search($name): JsonResponse
+    {
+        try {
+            $subcategories = SubCat::where('name', 'LIKE', "%{$name}%")->get();
+            for ($i = 0; $i < count($subcategories); $i++) {
+                $subcategories[$i]->images = explode("|", $subcategories[$i]->images);
+            }
+            return response()->json([
+                'subcategories' => $subcategories
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong',
+                'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error',
             ], $e->getCode());
         }
     }

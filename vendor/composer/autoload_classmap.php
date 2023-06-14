@@ -44,6 +44,7 @@ return array(
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
     'App\\Models\\City' => $baseDir . '/app/Models/City.php',
     'App\\Models\\ContactUs' => $baseDir . '/app/Models/ContactUs.php',
+    'App\\Models\\Corder' => $baseDir . '/app/Models/Corder.php',
     'App\\Models\\Islider' => $baseDir . '/app/Models/Islider.php',
     'App\\Models\\OTP' => $baseDir . '/app/Models/OTP.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
