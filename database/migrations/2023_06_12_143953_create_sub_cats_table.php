@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string('mini_desc');
             $table->string('description');
             $table->string('price');
-            $table->string('from');
-            $table->string('to');
+            $table->string('enough');
             $table->timestamps();
             $table->softDeletes();
         });

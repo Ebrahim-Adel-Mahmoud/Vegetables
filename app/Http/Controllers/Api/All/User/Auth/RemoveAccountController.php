@@ -21,7 +21,7 @@ class RemoveAccountController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Account removed successfully',
-                'data' => null
+                'data' => $user
             ]);
         } catch (\Exception $e) {
             return response([

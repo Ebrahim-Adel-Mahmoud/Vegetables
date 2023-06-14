@@ -117,7 +117,6 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-
         ]);
 
         if ($validator->fails()) {

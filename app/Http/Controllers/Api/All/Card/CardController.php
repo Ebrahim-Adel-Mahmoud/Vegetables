@@ -7,7 +7,6 @@ use App\Models\SubCat;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Card;
-use Illuminate\Support\Facades\Validator;
 
 class CardController extends Controller
 {
@@ -20,15 +19,13 @@ class CardController extends Controller
                     $box = SubCat::where('id', $card->box_id)->first();
                     $card->box = $box;
                 } else {
-                    $card->box = 'custom';
+                    $card->box = null ;
                 }
             }
             return response()->json([
                 'status' => true,
                 'message' => 'Cards Get successfully',
-                'data' => [
-                    'cards' => $cards,
-                ]
+                'data' => $cards,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -75,6 +72,65 @@ class CardController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Card Creation Failed',
+                'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
+            ]);
+        }
+    }
+
+    public function update(Request $request, $id): JsonResponse
+    {
+        try {
+            $card = Card::where('id', $id)->first();
+            if ($request->type == 'box') {
+                $sCat = SubCat::where('id', $request->box_id)->first();
+                $total = $sCat->price * $request->quantity;
+                $card->update([
+                    'box_id' => $request->box_id,
+                    'quantity' => $request->quantity,
+                    'total' => $total,
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Card Updated successfully',
+                    'data' => [
+                        'card' => $card,
+                        'box' => $sCat,
+                    ]
+                ]);
+            } else {
+                $card->update([
+                    'total' => $request->total,
+                    'type' => 'custom',
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Card Updated successfully',
+                    'data' => $card
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Card Update Failed',
+                'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
+            ]);
+        }
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $card = Card::where('id', $id)->first();
+            $card->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Card Deleted successfully',
+                'data' => $card
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Card Delete Failed',
                 'data' => env('API_DEBUG') ? $e->getMessage() : 'Server Error'
             ]);
         }

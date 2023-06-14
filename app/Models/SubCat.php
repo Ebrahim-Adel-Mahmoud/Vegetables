@@ -16,8 +16,7 @@ class SubCat extends Model
         'mini_desc',
         'description',
         'price',
-        'from',
-        'to',
+        'enough',
     ];
 
     protected $hidden = [

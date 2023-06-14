@@ -83,8 +83,7 @@ class SubCategoryController extends Controller
             $from = $request->from;
             $to = $request->to;
             $total = "من" . $from . " الي " . $to;
-            $sCat->to = $total;
-            $sCat->from = $total;
+            $sCat->enough = $total;
             $images = array();
             if ($files = $request->file('images')) {
                 foreach ($files as $file) {

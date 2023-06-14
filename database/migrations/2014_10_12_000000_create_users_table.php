@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('avatar')->nullable();
             $table->bigInteger('city_id')->unsigned();
-            $table->string('role')->default('USR')->comment('USR, ADM');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('role')->default('USR')->comment('USR, ADM','DRV');
+            $table->enum('status', [1, 0])->default(0)->comment('1:Active, 0:Inactive');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->rememberToken();

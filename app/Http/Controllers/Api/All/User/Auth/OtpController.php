@@ -36,7 +36,7 @@ class OtpController extends Controller
                 $otp->delete();
                 User::where('id', $otp->user_id)->update([
                     'email_verified_at' => now(),
-                    'status' => 'active'
+                    'status' => 1
                 ]);
                 return response([
                     'status' => true,
@@ -74,7 +74,7 @@ class OtpController extends Controller
         try {
             $otp = OTP::find($request->otp_id);
             $otp->otp = rand(1000, 9999);
-            $otp->expired_at = now()->addMinutes(5);
+            $otp->expires_at = now()->addMinutes(5);
             $otp->save();
 
             return response([
