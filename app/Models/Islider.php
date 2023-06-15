@@ -9,5 +9,14 @@ class Islider extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'name','description','image'];
+    protected $fillable = [
+        'name',
+        'description',
+        'image'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

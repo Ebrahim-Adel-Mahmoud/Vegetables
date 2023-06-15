@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\All\Order\CustomOrderController;
 use App\Http\Controllers\Api\All\Product\ProductController;
 use App\Http\Controllers\Api\All\SCategory\SubCategoryController;
 use App\Http\Controllers\Api\All\Slider\CatSliderController;
+use App\Http\Controllers\Api\All\Slider\IsliderController;
 use App\Http\Controllers\Api\All\Slider\SliderController;
 use App\Http\Controllers\Api\All\User\Auth\ForgetPassController;
 use App\Http\Controllers\Api\All\User\Auth\LoginController;

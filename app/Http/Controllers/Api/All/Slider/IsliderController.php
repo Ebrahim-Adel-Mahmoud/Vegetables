@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Validator;
 
 class IsliderController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         try {
-            $silders = Islider::all(['id', 'name', 'description', 'image']);
+            $sliders = Islider::all();
             return response()->json([
                 'status' => true,
                 'message' => 'Slider successfully',
-                'data' => $silders,
+                'data' => $sliders,
             ]);
         } catch (\Exception $e) {
             return response()->json([
