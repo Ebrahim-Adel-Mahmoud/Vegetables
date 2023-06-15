@@ -12,6 +12,8 @@ class ContactUs extends Model
     protected $fillable = [
         'user_id',
         'message',
+        'email',
+        'phone',
     ];
     protected $hidden = [
         'created_at',
