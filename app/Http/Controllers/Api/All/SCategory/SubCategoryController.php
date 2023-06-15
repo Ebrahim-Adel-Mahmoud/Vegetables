@@ -38,9 +38,6 @@ class SubCategoryController extends Controller
             $sCat = SubCat::find($id);
             $sCat->images = explode("|", $sCat->images);
             $product = Product::where('subcategory_id', 'like', '%' . $id . '%')->get();
-            for ($i = 0; $i < count($product); $i++) {
-                $product[$i]->images = explode("|", $product[$i]->images);
-            }
             return response()->json([
                 'status' => true,
                 'message' => 'Sub Category Details',
