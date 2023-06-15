@@ -96,6 +96,7 @@ Route::post('/work/create', [WorkController::class, 'store']);
 
 //home page
 Route::get('/home/screen', [HomeScreenController::class, 'homeScreen']);
+Route::get('/search/{name}', [HomeScreenController::class, 'search']);
 
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
