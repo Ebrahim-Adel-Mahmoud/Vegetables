@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\All\AppInfo\AppInfoController;
+use App\Http\Controllers\Api\All\AppInfo\HelpController;
+use App\Http\Controllers\Api\All\AppInfo\TermsConditionsController;
 use App\Http\Controllers\Api\All\Card\CardController;
 use App\Http\Controllers\Api\All\Category\CategoryController;
 use App\Http\Controllers\Api\All\Contact\ContactUsController;
@@ -39,20 +42,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/profile', [ShowController::class, 'index']);
-    Route::put('/profile/update', [UpdateController::class, 'update']);
-    Route::put('/profile/password', [UpdateController::class, 'updatePassword']);
+    Route::post('/profile/update', [UpdateController::class, 'update']);
+    Route::post('/profile/password', [UpdateController::class, 'updatePassword']);
     Route::get('/removeUser', [RemoveAccountController::class, 'removeAccount']);
     Route::post('/logout', [LogoutController::class, 'logout']);
     Route::get('/cards', [CardController::class, 'index']);
     Route::post('/cards/create', [CardController::class, 'store']);
-    Route::put('/cards/update/{id}', [CardController::class, 'update']);
+    Route::post('/cards/update/{id}', [CardController::class, 'update']);
     Route::delete('/cards/remove/{id}', [CardController::class, 'destroy']);
-    Route::post('/contact/create',[ContactUsController::class,'store']);
-    Route::get('/contact',[ContactUsController::class,'index']);
+    Route::post('/contact/create', [ContactUsController::class, 'store']);
+    Route::get('/contact', [ContactUsController::class, 'index']);
     Route::get('/custom-order', [CustomOrderController::class, 'index']);
     Route::post('/custom-order/create', [CustomOrderController::class, 'store']);
     Route::get('/custom-order/{id}', [CustomOrderController::class, 'show']);
-    Route::put('/custom-order/update{id}', [CustomOrderController::class, 'update']);
+    Route::post('/custom-order/update{id}', [CustomOrderController::class, 'update']);
 });
 
 //public routes
@@ -92,7 +95,7 @@ Route::post('/work/create', [WorkController::class, 'store']);
 
 
 //home page
-Route::get('/home/screen',[HomeScreenController::class,'homeScreen']);
+Route::get('/home/screen', [HomeScreenController::class, 'homeScreen']);
 
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
@@ -100,5 +103,17 @@ Route::post('/catSlider/create', [CatSliderController::class, 'store']);
 Route::post('/iSlider/create', [isliderController::class, 'store']);
 Route::post('/categories/create', [CategoryController::class, 'store']);
 Route::post('/sub-categories/create', [SubCategoryController::class, 'store']);
-Route::post('/product/create',[ProductController::class,'store']);
+Route::post('/product/create', [ProductController::class, 'store']);
 
+
+//Terms Conditions
+Route::get('/descriptions', [TermsConditionsController::class, 'index']);
+Route::post('/descriptions/create', [TermsConditionsController::class, 'store']);
+
+//Helps
+Route::get('/helps', [HelpController::class, 'index']);
+Route::post('/help/create', [HelpController::class, 'store']);
+
+//App Info
+Route::get('/appInfo', [AppInfoController::class, 'index']);
+Route::post('/appInfo/create', [AppInfoController::class, 'store']);

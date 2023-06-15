@@ -141,7 +141,7 @@
             </nav>
         </div>
 
-        {{$slot}}
+{{--        {{$slot}}--}}
 
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">

@@ -32,7 +32,9 @@ class ContactUsController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'message' => 'required|string',
+            'message' => 'required|string|max:255|min:10',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -45,6 +47,8 @@ class ContactUsController extends Controller
         try {
             $contact = new ContactUs();
             $contact->user_id = auth()->user()->id;
+            $contact->email = $request->input('email');
+            $contact->phone = $request->input('phone');
             $contact->message = $request->input('message');
             $contact->save();
 
