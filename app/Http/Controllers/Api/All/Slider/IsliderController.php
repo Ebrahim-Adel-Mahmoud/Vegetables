@@ -51,7 +51,7 @@ class IsliderController extends Controller
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/slider/'), $imageName);
-            $product->image = asset('/images/slider/') . $imageName;
+            $product->image = asset('/images/slider/' . $imageName);
             $product->save();
 
             return response()->json([
