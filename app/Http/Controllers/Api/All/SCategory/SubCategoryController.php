@@ -38,11 +38,16 @@ class SubCategoryController extends Controller
             $sCat = SubCat::find($id);
             $sCat->images = explode("|", $sCat->images);
             $product = Product::where('subcategory_id', 'like', '%' . $id . '%')->get();
+            for ($i = 0; $i < count($product); $i++) {
+                $product[$i]->images = explode("|", $product[$i]->images);
+            }
             return response()->json([
                 'status' => true,
                 'message' => 'Sub Category Details',
-                'data' => $sCat,
-                'product' => $product,
+                'data' => [
+                    'sub category' => $sCat,
+                    'product' => $product,
+                ]
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -92,7 +97,7 @@ class SubCategoryController extends Controller
                     $image_full_name = $image_name . '.' . $ext;
                     $upload_path = 'images/subcategory/';
                     $image_url = $upload_path . $image_full_name;
-                    $file -> move($upload_path, $image_full_name);
+                    $file->move($upload_path, $image_full_name);
                     $images[] = asset($image_url);
                 }
             }
