@@ -97,7 +97,7 @@ Route::get('/home/screen',[HomeScreenController::class,'homeScreen']);
 //remove this later
 Route::post('/slider/create', [SliderController::class, 'store']);
 Route::post('/catSlider/create', [CatSliderController::class, 'store']);
-Route::post('/iSlider/create', [SliderController::class, 'store']);
+Route::post('/iSlider/create', [isliderController::class, 'store']);
 Route::post('/categories/create', [CategoryController::class, 'store']);
 Route::post('/sub-categories/create', [SubCategoryController::class, 'store']);
 Route::post('/product/create',[ProductController::class,'store']);
