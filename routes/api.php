@@ -70,7 +70,7 @@ Route::post('/cites/create', [RegisterController::class, 'addCity']);
 //slider
 Route::get('/slider', [SliderController::class, 'index']);
 Route::get('/catSlider', [CatSliderController::class, 'index']);
-Route::get('/iSlider', [SliderController::class, 'index']);
+Route::get('/iSlider', [isliderController::class, 'index']);
 
 
 //categories
